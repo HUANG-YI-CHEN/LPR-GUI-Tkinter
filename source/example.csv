@@ -1,0 +1,51 @@
+﻿id, name        , des       , predict, color , accurate, datatime
+1 , ltcmz5or.jpg, opencv+svm, MC-5742, white , None    , 2021-09-11 16:45:02
+2 , VS5cFfiH.png, opencv+svm, EZ-9206, red   , None    , 2021-09-11 16:45:02
+3 , O25oglwh.jpg, yolo+cnn  , VI-2713, yellow, None    , 2021-09-11 16:45:02
+4 , uaAGwMKc.jpg, opencv+ocr, WO-7605, white , None    , 2021-09-11 16:45:02
+5 , yO3ngv7P.jpg, opencv+cnn, KB-8509, yellow, None    , 2021-09-11 16:45:02
+6 , WnCxmaAl.png, opencv+cnn, ZE-0612, blue  , None    , 2021-09-11 16:45:02
+7 , ANm9lrY1.png, yolo+cnn  , DM-0695, black , None    , 2021-09-11 16:45:02
+8 , 6g3pByQc.jpg, opencv+svm, LP-6415, black , None    , 2021-09-11 16:45:02
+9 , wZYDtmMd.jpg, yolo+cnn  , QI-4082, blue  , None    , 2021-09-11 16:45:02
+10, KG7Tgmpe.png, opencv+svm, BT-1423, blue  , None    , 2021-09-11 16:45:02
+11, Le4QXSgw.jpg, opencv+ocr, YJ-2978, yellow, None    , 2021-09-11 16:45:02
+12, t04PVwmS.jpg, opencv+ocr, BM-6178, green , None    , 2021-09-11 16:45:02
+13, 4OCJWcaT.png, opencv+ocr, SW-9768, green , None    , 2021-09-11 16:45:02
+14, hlB79pu2.jpg, opencv+svm, CD-5301, white , None    , 2021-09-11 16:45:02
+15, rgz936nQ.jpg, yolo+cnn  , FT-4510, black , None    , 2021-09-11 16:45:02
+16, mMsCNQUv.png, opencv+cnn, DH-9205, yellow, None    , 2021-09-11 16:45:02
+17, SzcifWGT.png, opencv+cnn, MG-1697, black , None    , 2021-09-11 16:45:02
+18, 2d8SXifD.png, yolo+cnn  , YP-8046, blue  , None    , 2021-09-11 16:45:02
+19, ybCH03tN.jpg, opencv+cnn, GB-8460, green , None    , 2021-09-11 16:45:02
+20, 871HuYmM.jpg, opencv+svm, QK-9761, white , None    , 2021-09-11 16:45:02
+21, phZKzfgm.jpg, opencv+cnn, CL-4705, blue  , None    , 2021-09-11 16:45:02
+22, x7qYbgRu.png, opencv+cnn, NQ-9460, black , None    , 2021-09-11 16:45:02
+23, VXrPM1TG.jpg, yolo+cnn  , BX-5182, black , None    , 2021-09-11 16:45:02
+24, 0bnZAzkh.png, opencv+ocr, YW-4603, blue  , None    , 2021-09-11 16:45:02
+25, PUbnKTyD.jpg, yolo+cnn  , EO-1953, blue  , None    , 2021-09-11 16:45:02
+26, 60bWODye.jpg, opencv+ocr, NN-3085, red   , None    , 2021-09-11 16:45:02
+27, ldHApFUS.jpg, yolo+cnn  , JD-1982, blue  , None    , 2021-09-11 16:45:02
+28, Ox275Lrt.png, opencv+svm, ZO-8370, black , None    , 2021-09-11 16:45:02
+29, utWmEyDx.png, opencv+cnn, ZH-5196, blue  , None    , 2021-09-11 16:45:02
+30, WfZ76Xz5.png, opencv+ocr, SZ-2781, black , None    , 2021-09-11 16:45:02
+31, 7nlhFbfX.png, yolo+cnn  , ZG-0638, red   , None    , 2021-09-11 16:45:02
+32, wY387j9x.jpg, opencv+ocr, QK-9702, white , None    , 2021-09-11 16:45:02
+33, FW5dXAY4.jpg, opencv+svm, GR-7593, white , None    , 2021-09-11 16:45:02
+34, Rb7qUWyi.jpg, opencv+ocr, IK-1578, green , None    , 2021-09-11 16:45:02
+35, PlZ7Rhog.jpg, yolo+cnn  , OB-9487, red   , None    , 2021-09-11 16:45:02
+36, HXdI0Q7B.png, opencv+svm, UJ-6830, red   , None    , 2021-09-11 16:45:02
+37, rL26cImz.jpg, opencv+cnn, LU-1576, red   , None    , 2021-09-11 16:45:02
+38, O3b2qjGr.png, yolo+cnn  , CF-7169, red   , None    , 2021-09-11 16:45:02
+39, vx3VsSMU.jpg, opencv+svm, VC-8534, green , None    , 2021-09-11 16:45:02
+40, qYkH9O0s.jpg, opencv+svm, KU-7286, yellow, None    , 2021-09-11 16:45:02
+41, thaI3MjC.jpg, opencv+ocr, UV-1479, blue  , None    , 2021-09-11 16:45:02
+42, hRZvX1jD.jpg, opencv+ocr, KN-8940, green , None    , 2021-09-11 16:45:02
+43, u537ys1O.png, opencv+ocr, UL-1085, black , None    , 2021-09-11 16:45:02
+44, K9Bd4jP0.png, yolo+cnn  , JR-3478, white , None    , 2021-09-11 16:45:02
+45, oz1Sri9A.png, yolo+cnn  , SB-9462, white , None    , 2021-09-11 16:45:02
+46, 0Y6AaG28.jpg, opencv+cnn, YN-7635, black , None    , 2021-09-11 16:45:02
+47, Na20nud1.jpg, yolo+cnn  , XU-4163, black , None    , 2021-09-11 16:45:02
+48, aREGQzM2.jpg, opencv+svm, WC-9231, blue  , None    , 2021-09-11 16:45:02
+49, VkA4lPUn.png, opencv+ocr, PX-7395, white , None    , 2021-09-11 16:45:02
+50, gbdz3hUE.png, opencv+svm, RS-4263, green , None    , 2021-09-11 16:45:02
