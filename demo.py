@@ -1,26 +1,29 @@
+import logging
+import os
+import time
 import tkinter as tk
+from time import strftime
 from tkinter import ttk
 
-from lib.tab_1 import tab1
-from lib.tab_3 import tab3
+from lib.logger import Logger
+from lib.tab_frame1 import TabFrame_1
+from lib.tab_frame3 import TabFrame_3
 
+debug_level = logging.INFO
+logging.basicConfig(**Logger(debug_level, False).config())
+# logging.disable(logging.INFO)
 
 class GUI_LPR(tk.Frame):
     def __init__(self, win):
         super(GUI_LPR, self).__init__(win)
         self.win = win
+        self.win.protocol("WM_DELETE_WINDOW", lambda e=None:self.destroy_window(e))
         self.set_center_geometry(self.win)
 
         self.parms = [
-            {
-                'tab': {'text': 'Demo Tab', 'bg': '#fae3dc', 'fill':'both', 'expand':True, 'state':'normal'}
-            },
-            {
-                'tab': {'text': 'Train Tab', 'bg': '#fae3dc', 'fill':'both', 'expand':True, 'state':'disable'}
-            },
-            {
-                'tab': {'text': 'Report Tab', 'bg': '#fae3dc', 'fill':'both', 'expand':True, 'state':'normal'}
-            },
+            {'tab': {'text': 'Demo Tab', 'bg': '#fae3dc', 'fill':'both', 'expand':True, 'state':'normal'}},
+            {'tab': {'text': 'Train Tab', 'bg': '#fae3dc', 'fill':'both', 'expand':True, 'state':'disable'}},
+            {'tab': {'text': 'Report Tab', 'bg': '#fae3dc', 'fill':'both', 'expand':True, 'state':'normal'}},
         ] # yapf:disable
         parms = self.parms
         self.tab = []
@@ -38,8 +41,8 @@ class GUI_LPR(tk.Frame):
             state = parms[idx]['tab']['state']
             notebook.add(tab, text=' '* 10 + text + ' '*10, state=state)
 
-        self.tab_1 = tab1(self.tab[0])
-        self.tab_3 = tab3(self.tab[2])
+        self.tab_1 = TabFrame_1(self.win, self.tab[0])
+        self.tab_3 = TabFrame_3(self.tab[2])
 
     def set_center_geometry(self, win: tk.Tk):
         ''' 取得視窗大小和視窗位置 '''
@@ -53,6 +56,11 @@ class GUI_LPR(tk.Frame):
         self.win.geometry(size)
         self.win.update()
 
+    def destroy_window(self, event):
+        logging.info(":The LPR-GUI window has been destroyedThe LPR-GUI window has been destroyed.")
+        if self.tab_3.sqlconn:
+            self.tab_3.sqlconn.close()
+        self.win.destroy()
 
 def main():
     win = tk.Tk()
@@ -60,7 +68,6 @@ def main():
     win.title('License Plate Recognition')
     glpr = GUI_LPR(win)
     win.mainloop()
-
 
 if __name__ == '__main__':
     main()
