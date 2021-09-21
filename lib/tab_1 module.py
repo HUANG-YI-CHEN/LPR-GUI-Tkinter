@@ -188,29 +188,57 @@ class Subframe2_Frame2:
 
     def __init__(self, iframe_sub):
         self.__frame = iframe_sub[1][1]
+        self.__virtual_img = tk.PhotoImage(width=1, height=1)
+
         abbr = self.__parms['button_1']
-        self.btn_left = tk.Button(master=self.__frame)
-        self.btn_left.grid()
+        self.btn_left = tk.Button(master=self.__frame, text=abbr['text'], image=self.__virtual_img, width=abbr['width'], height=abbr['height'],
+                                  compound=abbr['compound'], borderwidth=abbr['borderwidth'], background=abbr['background']) # yapf:disable
+        self.btn_left.grid(column=abbr['col'], row=abbr['row'], sticky=abbr['sticky']) # yapf:disable
 
         abbr = self.__parms['canvas']
-        self.canvas = tk.Canvas()
-        self.canvas.grid()
+        self.canvas = tk.Canvas(master=self.__frame)
+        self.canvas.create_image(0,0, anchor='center', image=self.__virtual_img, tags="bg_img") # yapf:disable
+        self.canvas.grid(column=abbr['col'], row=abbr['row'], sticky=abbr['sticky']) # yapf:disable
 
         abbr = self.__parms['button_2']
-        self.btn_right = tk.Button(master=self.__frame)
-        self.btn_right.grid()
+        self.btn_right = tk.Button(master=self.__frame, text=abbr['text'], image=self.__virtual_img, width=abbr['width'], height=abbr['height'],
+                                  compound=abbr['compound'], borderwidth=abbr['borderwidth'], background=abbr['background']) # yapf:disable
+        self.btn_right.grid(column=abbr['col'], row=abbr['row'], sticky=abbr['sticky']) # yapf:disable
 
 
 
 class Subframe2_Frame3:
     __parms = {
-        'button_1':{'text':'◀','col':0, 'row':0, 'sticky':'w', 'padx':0, 'pady':0, 'width':20, 'height':20, 'compound':'c', 'borderwidth':1, 'background':'white'},
-        'canvas':{'text':'','col':1, 'row':0, 'sticky':'nsew', 'padx':0, 'pady':0},
-        'button_2':{'text':'▶','col':2, 'row':0, 'sticky':'w', 'padx':0, 'pady':0, 'width':20, 'height':20, 'compound':'c', 'borderwidth':1, 'background':'white'},
+        'button_1':{'text':'▶','col':0, 'row':0, 'sticky':'nsew', 'padx':5, 'pady':0, 'width':50, 'height':50, 'compound':'c', 'borderwidth':1, 'background':'white'},
+        'button_2':{'text':'▌▌','col':1, 'row':0, 'sticky':'nsew', 'padx':5, 'pady':0, 'width':50, 'height':50, 'compound':'c', 'borderwidth':1, 'background':'white'},
+        'button_3':{'text':'▅','col':2, 'row':0, 'sticky':'nsew', 'padx':5, 'pady':0, 'width':50, 'height':50, 'compound':'c', 'borderwidth':1, 'background':'white'},
+        'button_4':{'text':'Rec','col':3, 'row':0, 'sticky':'nsew', 'padx':5, 'pady':0, 'width':50, 'height':50, 'compound':'c', 'borderwidth':1, 'background':'white'},
     } # yapf:disable
 
     def __init__(self, iframe_sub):
         self.__frame = iframe_sub[1][2]
+        self.__virtual_img = tk.PhotoImage(width=1, height=1)
+        self.__frame.columnconfigure([0,1,2,3], weight=1)
+
+        abbr = self.__parms['button_1']
+        self.btn_1 = tk.Button(master=self.__frame, text=abbr['text'], image=self.__virtual_img, width=abbr['width'], height=abbr['height'],
+                                  compound=abbr['compound'], borderwidth=abbr['borderwidth'], background=abbr['background']) # yapf:disable
+        self.btn_1.grid(column=abbr['col'], row=abbr['row'], sticky=abbr['sticky']) # yapf:disable
+
+        abbr = self.__parms['button_2']
+        self.btn_2 = tk.Button(master=self.__frame, text=abbr['text'], image=self.__virtual_img, width=abbr['width'], height=abbr['height'],
+                                  compound=abbr['compound'], borderwidth=abbr['borderwidth'], background=abbr['background']) # yapf:disable
+        self.btn_2.grid(column=abbr['col'], row=abbr['row'], sticky=abbr['sticky']) # yapf:disable
+
+        abbr = self.__parms['button_3']
+        self.btn_3 = tk.Button(master=self.__frame, text=abbr['text'], image=self.__virtual_img, width=abbr['width'], height=abbr['height'],
+                                  compound=abbr['compound'], borderwidth=abbr['borderwidth'], background=abbr['background']) # yapf:disable
+        self.btn_3.grid(column=abbr['col'], row=abbr['row'], sticky=abbr['sticky']) # yapf:disable
+
+        abbr = self.__parms['button_4']
+        self.btn_4 = tk.Button(master=self.__frame, text=abbr['text'], image=self.__virtual_img, width=abbr['width'], height=abbr['height'],
+                                  compound=abbr['compound'], borderwidth=abbr['borderwidth'], background=abbr['background']) # yapf:disable
+        self.btn_4.grid(column=abbr['col'], row=abbr['row'], sticky=abbr['sticky']) # yapf:disable
 
 
 class Tab1_Frame:
