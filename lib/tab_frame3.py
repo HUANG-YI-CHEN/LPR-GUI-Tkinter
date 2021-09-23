@@ -23,17 +23,17 @@ class ScrolledTreeview(tk.Frame):
     def __init__(self, parent=None, style=None, x=0, y=0,*args, **kwargs):
         super().__init__(parent, *args, **kwargs)
         self.parent = parent
-        self.style = style
+        self.__style = style
         self.x = x
         self.y = y
         self.parent.columnconfigure(self.x, weight=1)
         self.parent.rowconfigure(self.y, weight=1)
         self.__treeview = ttk.Treeview(self.parent, style="Custom.Treeview")
         # self.__treeview = ttk.Treeview(self.parent)
-        self.__treeview.grid(column=self.x, row=self.y, sticky='nsew', columnspan=2)
+        self.__treeview.grid(column=self.x, row=self.y, sticky='nsew')
 
         self.__xscrbar = ttk.Scrollbar(self.parent, orient='horizontal')
-        self.__xscrbar.grid(column=self.x, row=self.y+1, sticky='swe')
+        self.__xscrbar.grid(column=self.x, row=self.y+1, sticky='swe', columnspan=2)
         self.__yscrbar = ttk.Scrollbar(self.parent, orient='vertical')
         self.__yscrbar.grid(column=self.x+1, row=self.y, sticky='nse')
 
@@ -95,13 +95,22 @@ class ScrolledTreeview(tk.Frame):
         self.__treeview.heading(column, command=lambda: self.__sort_column(column, not reverse)) #重寫標題，使之成為再點倒序的標題
 
 class TabFrame_3:
+    __parms = {
+        'combobox':{'values':['report csv','report sql'], 'state':'readonly', 'anchor':'n', 'side':'left', 'fill':'both', 'padx':(15,0), 'pady':10},
+        'button':{'anchor':'n', 'side':'left', 'expand':False, 'fill':'both', 'padx':(15,0), 'pady':10, 'width':20, 'height':20, 'borderwidth':2},
+        'entry':{'anchor':'n', 'side':'left', 'expand':True, 'fill':'both', 'padx':15, 'pady':10},
+        'icon' : ['folder-home-open.png']
+    } # yapf:disable
+
     def __init__(self, TabFrame):
-        self.tab3 = TabFrame
+        self.__tab3 = TabFrame
         self.file_path = ''
         self.sqlconn = None
-        self.style = ttk.Style()
-        self.style.element_create("Custom.Treeheading.border", "from", "default")
-        self.style.layout("Custom.Treeview.Heading", [
+        self.icon = self.__parms['icon']
+
+        self.__style = ttk.Style()
+        self.__style.element_create("Custom.Treeheading.border", "from", "default")
+        self.__style.layout("Custom.Treeview.Heading", [
             ("Custom.Treeheading.cell", {'sticky': 'nswe'}),
             ("Custom.Treeheading.border", {'sticky':'nswe', 'children': [
                 ("Custom.Treeheading.padding", {'sticky':'nswe', 'children': [
@@ -110,26 +119,36 @@ class TabFrame_3:
                 ]})
             ]}),
         ])
-        self.style.configure("Custom.Treeview.Heading", background="blue", foreground="white", relief="flat")
-        self.style.map("Custom.Treeview.Heading", relief=[('active','groove'),('pressed','sunken')])
+        self.__style.configure("Custom.Treeview.Heading", background="blue", foreground="white", relief="flat")
+        self.__style.map("Custom.Treeview.Heading", relief=[('active','groove'),('pressed','sunken')])
 
-        frame = tk.Frame(master=self.tab3)
-        frame.grid(column=0, row=0, sticky='nsew', pady=5, columnspan=2)
+        self.__frame = tk.Frame(master=self.__tab3)
+        self.__frame.grid(column=0, row=0, sticky='nsew', pady=5, columnspan=2)
 
-        self.cbbox = ttk.Combobox(master=frame, values=['report csv','report sql'], state='readonly')
-        self.cbbox.current(0)
-        self.cbbox.pack(anchor='n', side='left', fill='both')
-        self.img = Image.open(os.path.join(os.curdir,'icon','folder-home-open.png')).resize((20,20),Image.ANTIALIAS)
-        self.imgtk = ImageTk.PhotoImage(self.img)
-        self.btn = tk.Button(master=frame, image=self.imgtk, width=20, height=20, borderwidth=2)
-        self.btn.config(command=(lambda:self.btn_open_select()))
-        self.btn.pack(anchor='n', side='left', padx=20, fill='both')
+        abbr = self.__parms['combobox']
+        self.__cbbox = ttk.Combobox(master=self.__frame, values=abbr['values'], state=abbr['state'])
+        self.__cbbox.pack(anchor=abbr['anchor'], side=abbr['side'], fill=abbr['fill'], padx=abbr['padx'], pady=abbr['pady']) # yapf:disable
+        self.__cbbox.current(0)
 
+        abbr = self.__parms['button']
+        self.__imgtk = self.__get_imgtk(img_icon=self.icon[0], size=(20, 20))
+        self.__btn = tk.Button(master=self.__frame, image=self.__imgtk, width=abbr['width'], height=abbr['height'], borderwidth=abbr['borderwidth']) # yapf:disable
+        self.__btn.pack(anchor=abbr['anchor'], side=abbr['side'], expand=abbr['expand'], fill=abbr['fill'], padx=abbr['padx'], pady=abbr['pady']) # yapf:disable
+        self.__btn.config(command=(lambda:self.btn_open_select()))
+
+        abbr = self.__parms['entry']
         self.textEntry = tk.StringVar()
-        self.entry = tk.Entry(master=frame, textvariable=self.textEntry)
-        self.entry.pack(anchor='n', side='left', expand=True,fill='both')
+        self.__entry = tk.Entry(master=self.__frame, textvariable=self.textEntry)
+        self.__entry.pack(anchor=abbr['anchor'], side=abbr['side'], expand=abbr['expand'], fill=abbr['fill'], padx=abbr['padx'], pady=abbr['pady']) # yapf:disable
+
         self.cbbox_select_changed(None)
-        self.cbbox.bind('<<ComboboxSelected>>', (lambda e=None: self.cbbox_select_changed(e)) )
+        self.__cbbox.bind('<<ComboboxSelected>>', (lambda e=None: self.cbbox_select_changed(e)) )
+
+    def __get_imgtk(self, img_icon, size=(20, 20)):
+        img_path = os.path.join(os.curdir, 'icon', img_icon)
+        img = Image.open(img_path).resize(size, Image.ANTIALIAS)
+        imgtk = ImageTk.PhotoImage(img)
+        return imgtk
 
     def cbbox_select_changed(self, event):
         self.__treeview = None
@@ -137,11 +156,11 @@ class TabFrame_3:
         tree_heading = ['流水號', '資料夾', '檔名', '檔案類型', '辨識方式', '辨識結果', '顏色', '正確判斷', '人工修正', '辨識時間' ]
         tree_rows = []
 
-        if self.cbbox.current() == 0:
+        if self.__cbbox.current() == 0:
             if self.sqlconn is not None:
                 self.sqlconn.close()
                 self.sqlconn = None
-            self.__treeview = ScrolledTreeview(parent=self.tab3, style=self.style, x=0, y=1)
+            self.__treeview = ScrolledTreeview(parent=self.__tab3, style=self.__style, x=0, y=1)
             if not os.path.exists(self.file_path) or self.file_path.find('.csv') <= 0:
                 self.file_path = os.path.join(os.path.abspath(os.path.curdir),'source','example.csv')
                 self.file_path = os.path.realpath(self.file_path)
@@ -153,8 +172,8 @@ class TabFrame_3:
                 tree_column = [i.strip() for i in next(reader)]
                 tree_rows = [[x.strip() for x in row] for row in reader]
                 self.__treeview.csv2Treeview(tree_column, tree_heading, tree_rows)
-        elif self.cbbox.current() == 1:
-            self.__treeview = ScrolledTreeview(parent=self.tab3, style=self.style, x=0, y=1)
+        elif self.__cbbox.current() == 1:
+            self.__treeview = ScrolledTreeview(parent=self.__tab3, style=self.__style, x=0, y=1)
             if not os.path.exists(self.file_path) or self.file_path.find('.db') <= 0:
                 self.file_path = os.path.join(os.path.abspath(os.path.curdir),'source','example.db')
                 self.file_path = os.path.realpath(self.file_path)
@@ -175,9 +194,9 @@ class TabFrame_3:
         if self.sqlconn is not None:
             self.sqlconn.close()
             self.sqlconn = None
-        if self.cbbox.current() == 0:
+        if self.__cbbox.current() == 0:
             self.file_path = fd.askopenfilename(title="select csv file", filetypes=[("csv file", "*.csv")], initialdir=os.curdir)
-        elif self.cbbox.current() == 1:
+        elif self.__cbbox.current() == 1:
             self.file_path = fd.askopenfilename(title="select database file", filetypes=[("database file", "*.db")], initialdir=os.curdir)
         if not self.file_path:
             msgbox.showwarning('Warning', 'Failed to open file')

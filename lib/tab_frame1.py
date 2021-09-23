@@ -300,36 +300,24 @@ class TabFrame_1(tk.Frame):
     def one_btn_open(self):
         self.clear_file_info()
 
+        title = ['select image files', 'select video files', 'select image directory', 'select video directory']
+        filetypes = [[("image file", "*.jpg"),("image file", "*.png"),("image file", "*.gif")],
+                     [("video file", "*.mov"),("video file", "*.ts"),("video file", "*.avi"),("video file", "*.mpeg"),("video file", "*.mp4")]]
+        initialdir = os.curdir
+        file_extend = [('*.jpg', '*.png', '*.gif'), ('*.mov','*.ts','*.avi','*.mpeg','*.mp4')]
+
         if self.one_cbbox.current() == 0:
             if self.one_radiobtn_val.get() == 0:
-                self.files = fd.askopenfilenames(title="select image files",
-                                                 filetypes=[
-                                                     ("image file", "*.jpg"),
-                                                     ("image file", "*.png"),
-                                                     ("image file", "*.gif")
-                                                 ],
-                                                 initialdir=os.curdir)
+                self.files = fd.askopenfilenames(title=title[0], filetypes=filetypes[0], initialdir=initialdir)
             elif self.one_radiobtn_val.get() == 1:
-                self.files = fd.askopenfilenames(title="select image files",
-                                                 filetypes=[
-                                                     ("video file", "*.mov"),
-                                                     ("video file", "*.ts"),
-                                                     ("video file", "*.avi"),
-                                                     ("video file", "*.mpeg"),
-                                                     ("video file", "*.mp4")
-                                                 ],
-                                                 initialdir=os.curdir)
+                self.files = fd.askopenfilenames(title=title[1], filetypes=filetypes[1], initialdir=initialdir)
         elif self.one_cbbox.current() == 1:
-            self.folder_path = fd.askdirectory(title="select image directory", initialdir=os.curdir)
             if self.one_radiobtn_val.get() == 0:
-                [ self.files.extend(glob.glob( os.path.abspath(os.path.join(self.folder_path, ext)))) for ext in ('*.jpg','*.png','*.gif') ]
+                self.folder_path = fd.askdirectory(title=title[2], initialdir=initialdir)
+                [ self.files.extend(glob.glob( os.path.abspath(os.path.join(self.folder_path, ext)))) for ext in file_extend[0] ]
             elif self.one_radiobtn_val.get() == 1:
-                [ self.files.extend(glob.glob( 
-                    
-
-                    
-                )) for ext in ('*.mov','*.ts','*.avi','*.mpeg','*.mp4') ]
-
+                self.folder_path = fd.askdirectory(title=title[3], initialdir=initialdir)
+                [ self.files.extend(glob.glob( os.path.abspath(os.path.join(self.folder_path, ext)))) for ext in file_extend[1] ]
         if len(self.files) == 0:
             msgbox.showwarning('Warning', 'Failed to open file')
             return
