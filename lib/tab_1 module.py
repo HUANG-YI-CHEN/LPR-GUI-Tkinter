@@ -552,7 +552,9 @@ class Tab1_Frame:
         self.__iframe[1].rowconfigure([0, 2], weight=0)
         self.__iframe[1].rowconfigure(1, weight=5)
         self.__iframe[2].columnconfigure(0, weight=1)
-        self.__iframe[2].rowconfigure([0, 1, 2, 3, 4], weight=1)
+        self.__iframe[2].rowconfigure([0, 1, 2, 3], weight=3)
+        self.__iframe[2].rowconfigure([3], weight=1)
+        self.__iframe[2].rowconfigure([4], weight=0)
 
         self.__f1_1 = Subframe1_Frame1(self.__iframe_sub, lambda e=None: self.__f1_selectRadioBtn(e))
         self.__f1_2 = Subframe1_Frame2(self.__iframe_sub)

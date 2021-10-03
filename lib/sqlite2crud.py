@@ -205,7 +205,7 @@ class LPR_SQL:
             row_id = self.conn._insert(sql)
         else:
             sql = 'select fid from File where folder=\'%s\' and fname=\'%s\'and type=%d'%(folder, fname, tid)
-            row_id = self.conn._read(sql)
+            row_id = self.conn._read(sql)[0][0]
             sql = 'update File set lastmodified=datetime(\'now\', \'localtime\') where fid = %d'%(row_id)
             self.conn._update(sql)
         return row_id
