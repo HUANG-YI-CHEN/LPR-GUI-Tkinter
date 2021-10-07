@@ -155,9 +155,10 @@ class Subframe2_Frame1:
             {'col':0, 'row':0, 'sticky':'nsew'},
             {'col':0, 'row':1, 'sticky':'nsew'}
         ],
-        'combobox_title':{'text':'choose one of the methods to recognize :','col':0, 'row':0, 'sticky':'nsew', 'padx':10, 'pady':0, 'justify':'left'},
-        'combobox':{'values':['opencv + ocr', 'opencv + svm', 'opencv + cnn', 'yolo + cnn'], 'state':'readonly',
-                    'col':1, 'row':0, 'sticky':'nsew', 'padx':10, 'pady':(5,0)},
+        'checkbtn_title_1':{'text':'license plate detection :','col':0, 'row':0, 'sticky':'nsw', 'padx':10, 'pady':0, 'justify':'left'},
+        'checkbtn_1':{'values':['opencv', 'yolo'], 'col':1, 'row':0, 'sticky':'nsew', 'padx':10, 'pady':(5,0)},
+        'checkbtn_title_2':{'text':'license plate recognition :','col':0, 'row':1, 'sticky':'nsw', 'padx':10, 'pady':0, 'justify':'left'},
+        'checkbtn_2':{'values':['ocr', 'svm', 'cnn'], 'col':1, 'row':1, 'sticky':'nsew', 'padx':10, 'pady':(5,0)},
         'folder_title':{'text':'【 Folder Path 】 : ','col':0, 'row':1, 'sticky':'nsw', 'padx':(10,0), 'pady':(5,0), 'anchor':'center'},
         'folder_content':{'text':'','col':1, 'row':1, 'sticky':'nsew', 'padx':(5,10), 'pady':(5,0),'relief':'groove', 'bg':'white', 'anchor':'w'},
         'file_title':{'text':'【 FileName 】 : ','col':0, 'row':2, 'sticky':'nsw', 'padx':(10,0), 'pady':5, 'anchor':'center'},
@@ -174,14 +175,29 @@ class Subframe2_Frame1:
             emptyframe[idx] = tk.Frame(master=self.__frame)
             emptyframe[idx].grid(column=abbr['col'], row=abbr['row'], sticky=abbr['sticky']) # yapf:disable
 
-        abbr = self.__parms['combobox_title']
+        abbr = self.__parms['checkbtn_title_1']
+        self.cbbox_title = tk.Label(master=emptyframe[0], text=abbr['text'], justify =abbr['justify']) # yapf:disable
+        self.cbbox_title.grid(column=abbr['col'], row=abbr['row'], sticky=abbr['sticky'], padx=abbr['padx'], pady=abbr['pady']) # yapf:disable
+        
+        abbr = self.__parms['checkbtn_title_2']
         self.cbbox_title = tk.Label(master=emptyframe[0], text=abbr['text'], justify =abbr['justify']) # yapf:disable
         self.cbbox_title.grid(column=abbr['col'], row=abbr['row'], sticky=abbr['sticky'], padx=abbr['padx'], pady=abbr['pady']) # yapf:disable
 
-        abbr = self.__parms['combobox']
-        self.combobox = ttk.Combobox(master=emptyframe[0], values=abbr['values'], state=abbr['state']) # yapf:disable
-        self.combobox.grid(column=abbr['col'], row=abbr['row'], sticky=abbr['sticky'], padx=abbr['padx'], pady=abbr['pady']) # yapf:disable
-        self.combobox.current(0)
+        abbr = self.__parms['checkbtn_1']
+        chk_btn_val_1, __chk_btn_1 = tk.IntVar(), []
+        for idx, val in enumerate(abbr['values']):
+            __chk_btn_1.append(tk.Checkbutton(master=emptyframe[0], text=val, onvalue=idx, offvalue=0, variable=chk_btn_val_1))
+            __chk_btn_1[idx].var = chk_btn_val_1
+            __chk_btn_1[idx].grid(column=abbr['col']+idx, row=abbr['row'], sticky=abbr['sticky'], padx=abbr['padx'], pady=abbr['pady'])
+        chk_btn_val_1.set(1)
+
+        abbr = self.__parms['checkbtn_2']
+        chk_btn_val_2, __chk_btn_2 = tk.IntVar(), []
+        for idx, val in enumerate(abbr['values']):
+            __chk_btn_2.append(tk.Checkbutton(master=emptyframe[0], text=val, onvalue=idx, offvalue=0, variable=chk_btn_val_2))
+            __chk_btn_2[idx].var = chk_btn_val_2
+            __chk_btn_2[idx].grid(column=abbr['col']+idx, row=abbr['row'], sticky=abbr['sticky'], padx=abbr['padx'], pady=abbr['pady'])
+        chk_btn_val_2.set(2)
 
         abbr = self.__parms['folder_title']
         self.folder_title = tk.Label(master=emptyframe[1], text=abbr['text'], anchor=abbr['anchor']) # yapf:disable
@@ -579,8 +595,8 @@ class Tab1_Frame:
         self.__thread_run, self.__thread = False, None
         self.files, self.files_idx = [], 0
         self.file_path, self.folder_name, self.file_name = '', '', ''
-        self.__f2_1.file_title.config(text = '')
-        self.__f2_1.file_title.config(text = '')
+        self.__f2_1.file_content.config(text = '')
+        self.__f2_1.folder_content.config(text = '')
         self.__f2_2.reset_canvas()
 
     def __f1_selectRadioBtn(self, event):
@@ -633,6 +649,12 @@ class Tab1_Frame:
         self.file_path = os.path.abspath(self.files[self.files_idx])
         self.folder_name = os.path.dirname(self.file_path)
         self.file_name = os.path.basename(self.file_path)
+
+    def __f2_selectRadioBtn_1(self, event):
+        pass
+    
+    def __f2_selectRadioBtn_2(self, event):
+        pass
 
     def __f2_btn_left_event(self, event):
         if len(self.files)==0:
