@@ -26,10 +26,17 @@
 - 依使用者 `Python 版本`， 安裝下列`Python 版本`對應的`指令`
 
 ```
-py -3.9 -m pip install -U --force-reinstall numpy imutils Cython opencv-python tensorflow keras --force-reinstall
-py -3.8 -m pip install -U --force-reinstall numpy imutils Cython opencv-python tensorflow keras --force-reinstall
-py -3.6 -m pip install -U --force-reinstall numpy imutils Cython opencv-python tensorflow==1.15 tensorflow-gpu==1.15 keras --force-reinstall
+py -3.9 -m pip install -U --force-reinstall numpy imutils Cython opencv-python tensorflow keras
+py -3.8 -m pip install -U --force-reinstall numpy imutils Cython opencv-python tensorflow keras
+py -3.6 -m pip install -U --force-reinstall numpy imutils Cython opencv-python tensorflow==1.15 tensorflow-gpu==1.15 keras
 py -3.6 -m pip install -U h5py==2.10.0 --force-reinstall
+
+py -3.6 -m pip install --upgrade pip
+py -3.6 -m pip install -U --force-reinstall opencv-python opencv-contrib-python
+py -3.6 -m pip install -U --force-reinstall msvc-runtime easyocr
+py -3.6 -m pip install -U torch==1.4.0+cpu torchvision==0.5.0+cpu
+
+py -3.6 -m pip install -U pytesseract
 ```
 
 ## 程式執行
@@ -69,3 +76,4 @@ py -3.6 demo.py
 
 - [影像辨識處理](https://www.smasoft-tech.com/show/knowledgebase-shemeshiyingxiangqianchuli.htm)
 - [Image Algorithm](http://web.ntnu.edu.tw/~algo/Image.html)
+- [EasyOCR] (https://www.gushiciku.cn/pl/g85G/zh-tw)

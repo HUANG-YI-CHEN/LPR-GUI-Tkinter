@@ -13,49 +13,6 @@ from PIL import Image, ImageTk
 [__all__] = ['Tab1_Frame']
 
 
-class ImageProcessing:
-    def __init__(self, win):
-        self.__win = win
-
-    def open_img(self, filename):
-        img_bgr = None
-        try:
-            img_bgr = cv2.imread(filename)
-        except:
-            img_rgb = cv2.imdecode(np.fromfile(filename, dtype=np.uint8), cv2.IMREAD_UNCHANGED)
-            img_bgr = cv2.cvtColor(img_rgb, cv2.COLOR_RGB2BGR)
-        return img_bgr
-
-    def get_imgtk(self, img_bgr, w_ratio=1 / 2, h_ratio=2 / 3):
-        img_rgb = cv2.cvtColor(img_bgr, cv2.COLOR_BGR2RGB)
-        im = self.get_imgresize(img_rgb, w_ratio, h_ratio)
-        imgtk = ImageTk.PhotoImage(image=im)
-        return imgtk
-
-    def get_imgresize(self, img_bgr, w_ratio=1 / 2, h_ratio=2 / 3):
-        im = Image.fromarray(img_bgr)
-        height, width = im.shape[:2]
-        if width > (self.__win.winfo_width() *
-                    w_ratio) or height > (self.__win.winfo_height() * h_ratio):
-            width_ratio = (self.__win.winfo_width() * w_ratio) / width
-            height_ratio = (self.__win.winfo_height() * h_ratio) / height
-            ratio = min(width_ratio, height_ratio)
-            width, height = int(width * ratio), int(height * ratio)
-            width = (1 if width <= 0 else width)
-            height = (1 if height <= 0 else height)
-            im = im.resize((width, height), Image.ANTIALIAS)
-        return im
-
-    def thread_video(self, path):
-        pass
-
-    def thread_camera(self):
-        pass
-
-    def thread_img(self):
-        pass
-
-
 class Subframe1_Frame1:
     __parms = {
         'radio_btn':[
@@ -112,13 +69,14 @@ class Subframe1_Frame2:
 
     def cbbox_select_changed(self, event):
         if self.cbbox.current() == 0:
-            imgtk = self.__get_imgtk(img_icon=self.icon[0], size=(20,20))
+            imgtk = self.__get_imgtk(img_icon=self.icon[0], size=(20, 20))
             self.btn.image = imgtk
             self.btn.config(image=imgtk)
         elif self.cbbox.current() == 1:
             imgtk = self.__get_imgtk(img_icon=self.icon[1], size=(20, 20))
             self.btn.image = imgtk
             self.btn.config(image=imgtk)
+
 
 class Subframe1_Frame3:
     __parms = {
@@ -176,28 +134,28 @@ class Subframe2_Frame1:
             emptyframe[idx].grid(column=abbr['col'], row=abbr['row'], sticky=abbr['sticky']) # yapf:disable
 
         abbr = self.__parms['checkbtn_title_1']
-        self.cbbox_title = tk.Label(master=emptyframe[0], text=abbr['text'], justify =abbr['justify']) # yapf:disable
-        self.cbbox_title.grid(column=abbr['col'], row=abbr['row'], sticky=abbr['sticky'], padx=abbr['padx'], pady=abbr['pady']) # yapf:disable
-        
+        self.checkbtn_title_1 = tk.Label(master=emptyframe[0], text=abbr['text'], justify =abbr['justify']) # yapf:disable
+        self.checkbtn_title_1.grid(column=abbr['col'], row=abbr['row'], sticky=abbr['sticky'], padx=abbr['padx'], pady=abbr['pady']) # yapf:disable
+
         abbr = self.__parms['checkbtn_title_2']
-        self.cbbox_title = tk.Label(master=emptyframe[0], text=abbr['text'], justify =abbr['justify']) # yapf:disable
-        self.cbbox_title.grid(column=abbr['col'], row=abbr['row'], sticky=abbr['sticky'], padx=abbr['padx'], pady=abbr['pady']) # yapf:disable
+        self.checkbtn_title_2 = tk.Label(master=emptyframe[0], text=abbr['text'], justify =abbr['justify']) # yapf:disable
+        self.checkbtn_title_2.grid(column=abbr['col'], row=abbr['row'], sticky=abbr['sticky'], padx=abbr['padx'], pady=abbr['pady']) # yapf:disable
 
         abbr = self.__parms['checkbtn_1']
-        chk_btn_val_1, __chk_btn_1 = tk.IntVar(), []
+        self.chk_btn_val_1, __chk_btn_1 = tk.IntVar(), []
         for idx, val in enumerate(abbr['values']):
-            __chk_btn_1.append(tk.Checkbutton(master=emptyframe[0], text=val, onvalue=idx, offvalue=0, variable=chk_btn_val_1))
-            __chk_btn_1[idx].var = chk_btn_val_1
-            __chk_btn_1[idx].grid(column=abbr['col']+idx, row=abbr['row'], sticky=abbr['sticky'], padx=abbr['padx'], pady=abbr['pady'])
-        chk_btn_val_1.set(1)
+            __chk_btn_1.append(tk.Checkbutton(master=emptyframe[0], text=val, onvalue=idx, offvalue=0, variable=self.chk_btn_val_1)) # yapf:disable
+            __chk_btn_1[idx].var = self.chk_btn_val_1
+            __chk_btn_1[idx].grid(column=abbr['col'] + idx, row=abbr['row'], sticky=abbr['sticky'], padx=abbr['padx'], pady=abbr['pady']) # yapf:disable
+        self.chk_btn_val_1.set(1)
 
         abbr = self.__parms['checkbtn_2']
-        chk_btn_val_2, __chk_btn_2 = tk.IntVar(), []
+        self.chk_btn_val_2, __chk_btn_2 = tk.IntVar(), []
         for idx, val in enumerate(abbr['values']):
-            __chk_btn_2.append(tk.Checkbutton(master=emptyframe[0], text=val, onvalue=idx, offvalue=0, variable=chk_btn_val_2))
-            __chk_btn_2[idx].var = chk_btn_val_2
-            __chk_btn_2[idx].grid(column=abbr['col']+idx, row=abbr['row'], sticky=abbr['sticky'], padx=abbr['padx'], pady=abbr['pady'])
-        chk_btn_val_2.set(2)
+            __chk_btn_2.append(tk.Checkbutton(master=emptyframe[0], text=val, onvalue=idx, offvalue=0, variable=self.chk_btn_val_2)) # yapf:disable
+            __chk_btn_2[idx].var = self.chk_btn_val_2
+            __chk_btn_2[idx].grid(column=abbr['col'] + idx, row=abbr['row'], sticky=abbr['sticky'], padx=abbr['padx'], pady=abbr['pady']) # yapf:disable
+        self.chk_btn_val_2.set(2)
 
         abbr = self.__parms['folder_title']
         self.folder_title = tk.Label(master=emptyframe[1], text=abbr['text'], anchor=abbr['anchor']) # yapf:disable
@@ -217,6 +175,7 @@ class Subframe2_Frame1:
 
         emptyframe[1].columnconfigure(0, weight=0)
         emptyframe[1].columnconfigure(1, weight=1)
+
 
 class Subframe2_Frame2:
     __parms = {
@@ -239,7 +198,8 @@ class Subframe2_Frame2:
         self.btn_left.image = self.__virtual_img
 
         abbr = self.__parms['canvas']
-        self.canvas = tk.Canvas(master=self.__frame, background=abbr['background'])
+        self.canvas = tk.Canvas(master=self.__frame,
+                                background=abbr['background'])
         self.canvas.create_image(0,0, anchor='center', image=self.__virtual_img, tags="bg_img") # yapf:disable
         self.canvas.grid(column=abbr['col'], row=abbr['row'], sticky=abbr['sticky'], padx=abbr['padx'], pady=abbr['pady']) # yapf:disable
 
@@ -281,7 +241,7 @@ class Subframe2_Frame3:
 
     def __init__(self, iframe_sub):
         self.__frame = iframe_sub[1][2]
-        self.__frame.columnconfigure([0,1,2,3], weight=1)
+        self.__frame.columnconfigure([0, 1, 2, 3], weight=1)
         self.__frame.rowconfigure([0], weight=1)
         self.__virtual_img = tk.PhotoImage(width=1, height=1)
 
@@ -396,6 +356,7 @@ class Subframe3_Frame3:
         self.__label.image = imgtk
         self.__label.update()
 
+
 class Subframe3_Frame4:
     __parms = {
         'label':{'text':'','col':0, 'row':0, 'sticky':'nsew', 'padx':20, 'pady':10, 'relief':'groove', 'bg':'white', 'fg':'black',
@@ -426,6 +387,7 @@ class Subframe3_Frame4:
         self.__label.grid(column=abbr['col'], row=abbr['row'], sticky=abbr['sticky']) # yapf:disable
         self.text_label.set(text)
 
+
 class Subframe3_Frame5:
     __parms = {
         'combobox':{'values':['save csv file','save sql db'], 'state':'readonly', 'col':0, 'row':0, 'sticky':'nsew', 'padx':(15,0), 'pady':(10,0)},
@@ -444,14 +406,18 @@ class Subframe3_Frame5:
         self.__virtual_img = tk.PhotoImage(width=1, height=1)
         self.icon = self.__parms['icon']
 
-        frame = [ None for _ in range(3) ]
+        frame = [None for _ in range(3)]
         for idx, _ in enumerate(frame):
             frame[idx] = tk.Frame(master=self.__frame)
             frame[idx].grid(column=0, row=idx, sticky='nsew')
 
         abbr = self.__parms['combobox']
         self.__cbbox = ttk.Combobox(master=frame[1], values=abbr['values'], state=abbr['state']) # yapf:disable
-        self.__cbbox.grid(column=abbr['col'], row=abbr['row'], sticky=abbr['sticky'], padx=abbr['padx'], pady=abbr['pady'])
+        self.__cbbox.grid(column=abbr['col'],
+                          row=abbr['row'],
+                          sticky=abbr['sticky'],
+                          padx=abbr['padx'],
+                          pady=abbr['pady'])
         self.__cbbox.current(0)
 
         abbr = self.__parms['button']
@@ -489,13 +455,14 @@ class Subframe3_Frame5:
 
     def __cbbox_select_changed(self, event):
         if self.__cbbox.current() == 0:
-            imgtk = self.__get_imgtk(img_icon=self.icon[0], size=(20,20))
+            imgtk = self.__get_imgtk(img_icon=self.icon[0], size=(20, 20))
             self.btn.image = imgtk
             self.btn.config(image=imgtk)
         elif self.__cbbox.current() == 1:
             imgtk = self.__get_imgtk(img_icon=self.icon[1], size=(20, 20))
             self.btn.image = imgtk
             self.btn.config(image=imgtk)
+
 
 class Tab1_Frame:
     __parms = [
@@ -537,6 +504,8 @@ class Tab1_Frame:
         self.__iframe_sub = [[None for _ in parm['subframe']] for parm in self.__parms] # yapf:disable
         self.canvas_frame = None
         self.__radiobtn_val = 0
+        self.__checkbtn_detection = 0
+        self.__checkbtn_recognition = 0
 
         #【Tab1_Frame.labelframe1, Tab1_Frame.labelframe2, Tab1_Frame.labelframe3】
         for idx, _ in enumerate(self.__iframe):
@@ -572,7 +541,8 @@ class Tab1_Frame:
         self.__iframe[2].rowconfigure([3], weight=1)
         self.__iframe[2].rowconfigure([4], weight=0)
 
-        self.__f1_1 = Subframe1_Frame1(self.__iframe_sub, lambda e=None: self.__f1_selectRadioBtn(e))
+        self.__f1_1 = Subframe1_Frame1(
+            self.__iframe_sub, lambda e=None: self.__f1_selectRadioBtn(e))
         self.__f1_2 = Subframe1_Frame2(self.__iframe_sub)
         self.__f1_3 = Subframe1_Frame3(self.__iframe_sub)
 
@@ -590,14 +560,18 @@ class Tab1_Frame:
         self.__iframe_sub[1][2].grid_forget()
         self.__f2_2.btn_left_hide()
         self.__f2_2.btn_right_hide()
+        self.__checkbtn_detection = self.__f2_1.chk_btn_val_1.get()
+        self.__checkbtn_recognition = self.__f2_1.chk_btn_val_2.get()
 
     def __resetINFO(self):
         self.__thread_run, self.__thread = False, None
         self.files, self.files_idx = [], 0
         self.file_path, self.folder_name, self.file_name = '', '', ''
-        self.__f2_1.file_content.config(text = '')
-        self.__f2_1.folder_content.config(text = '')
+        self.__f2_1.file_content.config(text='')
+        self.__f2_1.folder_content.config(text='')
         self.__f2_2.reset_canvas()
+        self.__checkbtn_detection = self.__f2_1.chk_btn_val_1.get()
+        self.__checkbtn_recognition = self.__f2_1.chk_btn_val_2.get()
 
     def __f1_selectRadioBtn(self, event):
         self.__resetINFO()
@@ -628,44 +602,71 @@ class Tab1_Frame:
 
     def __f1_btn_open(self):
         self.__resetINFO()
-        title = ['select image files', 'select video files', 'select image directory', 'select video directory']
-        filetypes = [[("image file", "*.jpg"),("image file", "*.png"),("image file", "*.gif")],
-                     [("video file", "*.mov"),("video file", "*.ts"),("video file", "*.avi"),("video file", "*.mpeg"),("video file", "*.mp4")]]
+        title = [
+            'select image files', 'select video files',
+            'select image directory', 'select video directory'
+        ]
+        filetypes = [[("image file", "*.jpg"), ("image file", "*.png"),
+                      ("image file", "*.gif")],
+                     [("video file", "*.mov"), ("video file", "*.ts"),
+                      ("video file", "*.avi"), ("video file", "*.mpeg"),
+                      ("video file", "*.mp4")]]
         initialdir = os.curdir
-        file_extend = [('*.jpg', '*.png', '*.gif'), ('*.mov','*.ts','*.avi','*.mpeg','*.mp4')]
+        file_extend = [('*.jpg', '*.png', '*.gif'),
+                       ('*.mov', '*.ts', '*.avi', '*.mpeg', '*.mp4')]
 
         if self.__f1_2.cbbox.current() == 0:
             if self.__radiobtn_val == 0:
-                self.files = fd.askopenfilenames(title=title[0], filetypes=filetypes[0], initialdir=initialdir)
+                self.files = fd.askopenfilenames(title=title[0],
+                                                 filetypes=filetypes[0],
+                                                 initialdir=initialdir)
             elif self.__radiobtn_val == 1:
-                self.files = fd.askopenfilenames(title=title[1], filetypes=filetypes[1], initialdir=initialdir)
+                self.files = fd.askopenfilenames(title=title[1],
+                                                 filetypes=filetypes[1],
+                                                 initialdir=initialdir)
         elif self.__f1_2.cbbox.current() == 1:
             if self.__radiobtn_val == 0:
-                self.folder_path = fd.askdirectory(title=title[2], initialdir=initialdir)
-                [ self.files.extend(glob.glob( os.path.abspath(os.path.join(self.folder_path, ext)))) for ext in file_extend[0] ]
+                self.folder_path = fd.askdirectory(title=title[2],
+                                                   initialdir=initialdir)
+                [
+                    self.files.extend(
+                        glob.glob(
+                            os.path.abspath(os.path.join(
+                                self.folder_path, ext))))
+                    for ext in file_extend[0]
+                ]
             elif self.__radiobtn_val == 1:
-                self.folder_path = fd.askdirectory(title=title[3], initialdir=initialdir)
-                [ self.files.extend(glob.glob( os.path.abspath(os.path.join(self.folder_path, ext)))) for ext in file_extend[1] ]
+                self.folder_path = fd.askdirectory(title=title[3],
+                                                   initialdir=initialdir)
+                [
+                    self.files.extend(
+                        glob.glob(
+                            os.path.abspath(os.path.join(
+                                self.folder_path, ext))))
+                    for ext in file_extend[1]
+                ]
         self.file_path = os.path.abspath(self.files[self.files_idx])
         self.folder_name = os.path.dirname(self.file_path)
         self.file_name = os.path.basename(self.file_path)
 
-    def __f2_selectRadioBtn_1(self, event):
+    def __f2_checkBtn_plate(self, event):
         pass
-    
-    def __f2_selectRadioBtn_2(self, event):
+
+    def __f2_checkBtn_(self, event):
         pass
 
     def __f2_btn_left_event(self, event):
-        if len(self.files)==0:
+        if len(self.files) == 0:
             return
         if self.files_idx == 0:
-            self.files_idx = len(self.files)-1
+            self.files_idx = len(self.files) - 1
         else:
             self.files_idx -= 1
         self.file_path = os.path.abspath(self.files[self.files_idx])
         self.folder_name = os.path.dirname(self.file_path)
         self.file_name = os.path.basename(self.file_path)
+        self.__checkbtn_detection = self.__f2_1.chk_btn_val_1.get()
+        self.__checkbtn_recognition = self.__f2_1.chk_btn_val_2.get()
 
     def __f2_btn_right_event(self, event):
         if len(self.files) == 0:
@@ -677,6 +678,8 @@ class Tab1_Frame:
         self.file_path = os.path.abspath(self.files[self.files_idx])
         self.folder_name = os.path.dirname(self.file_path)
         self.file_name = os.path.basename(self.file_path)
+        self.__checkbtn_detection = self.__f2_1.chk_btn_val_1.get()
+        self.__checkbtn_recognition = self.__f2_1.chk_btn_val_2.get()
 
     def __iframe_sub_show(self, idx, idy):
         abbr = self.__parms[idx]['subframe'][idy]
@@ -686,6 +689,7 @@ class Tab1_Frame:
 
     def __iframe_sub_hide(self, idx, idy):
         self.__iframe_sub[idx][idy].grid_forget()
+
 
 def set_center_geometry(win: tk.Tk):
     ''' 取得視窗大小和視窗位置 '''
@@ -699,11 +703,9 @@ def set_center_geometry(win: tk.Tk):
     win.geometry(size)
     win.update()
 
-
 def destroy_window(event, win: tk.Tk):
     print('The window has been destroyed.')
     win.destroy()
-
 
 def main():
     win = tk.Tk()
@@ -716,8 +718,7 @@ def main():
     tab1.pack(fill='both', expand=True)
     notebook.add(tab1, text=' ' * 10 + 'Demo Tab' + ' ' * 10)
     t1 = Tab1_Frame(win, tab1)
-    win.protocol("WM_DELETE_WINDOW",
-                 lambda e=None, w=win: destroy_window(e, w))
+    win.protocol("WM_DELETE_WINDOW", lambda e=None, w=win: destroy_window(e, w)) # yapf: disable
     win.mainloop()
 
 

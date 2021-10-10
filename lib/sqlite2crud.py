@@ -210,8 +210,8 @@ class LPR_SQL:
             self.conn._update(sql)
         return row_id
 
-    def update_File(self, fid, des=''):
-        sql = 'select fid from File where fid=%d'%(tid)
+    def update_File(self, fid: int, des=''):
+        sql = 'select fid from File where fid=%d'%(fid)
         if self.conn._read(sql)[0][0]:
             sql = 'update File set des = \'%s\', lastmodified = datetime(\'now\', \'localtime\') where fid = %d' % (des, fid)
             row_id = self.conn._update(sql)
@@ -223,7 +223,7 @@ class LPR_SQL:
         row_id =  self.conn._insert(sql)
         return row_id
 
-    def update_LPR(self, row_id, predict=None, revise=None):
+    def update_LPR(self, row_id:int, predict=None, revise=None):
         sql = '''
             update LPR set predict = %s, revise = %s where lid = %d
         ''' % ('null' if predict is None else str(predict), 'null' if revise is None else '\''+revise+'\'', row_id)
