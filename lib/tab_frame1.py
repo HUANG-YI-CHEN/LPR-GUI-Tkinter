@@ -249,8 +249,6 @@ class TabFrame_1(tk.Frame):
         self.two_canvas.grid(column=canvas_parm['col'], row=canvas_parm['row'], sticky=canvas_parm['sticky']) # yapf:disable
         self.two_btn_2.grid(column=btn2_parm['col'], row=btn2_parm['row'], sticky=btn2_parm['sticky']) # yapf:disable
 
-        self.three_btn_1 = tk
-
         self.hide_widget(self.iframe_sub[0][2])
         self.hide_widget(self.two_btn_1)
         self.hide_widget(self.two_btn_2)

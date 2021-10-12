@@ -194,24 +194,24 @@ class Subframe2_Frame2:
         abbr = self.__parms['button_left']
         self.btn_left = tk.Button(master=self.__frame, text=abbr['text'], image=self.__virtual_img, width=abbr['width'], height=abbr['height'],
                                   compound=abbr['compound'], borderwidth=abbr['borderwidth'], background=abbr['background']) # yapf:disable
-        self.btn_left.grid(column=abbr['col'], row=abbr['row'], sticky=abbr['sticky'], padx=abbr['padx'], pady=abbr['pady']) # yapf:disable
         self.btn_left.image = self.__virtual_img
 
         abbr = self.__parms['canvas']
-        self.canvas = tk.Canvas(master=self.__frame,
-                                background=abbr['background'])
+        self.canvas = tk.Canvas(master=self.__frame, background=abbr['background']) # yapf:disable
         self.canvas.create_image(0,0, anchor='center', image=self.__virtual_img, tags="bg_img") # yapf:disable
-        self.canvas.grid(column=abbr['col'], row=abbr['row'], sticky=abbr['sticky'], padx=abbr['padx'], pady=abbr['pady']) # yapf:disable
 
         abbr = self.__parms['button_right']
         self.btn_right = tk.Button(master=self.__frame, text=abbr['text'], image=self.__virtual_img, width=abbr['width'], height=abbr['height'],
                                   compound=abbr['compound'], borderwidth=abbr['borderwidth'], background=abbr['background']) # yapf:disable
-        self.btn_right.grid(column=abbr['col'], row=abbr['row'], sticky=abbr['sticky'], padx=abbr['padx'], pady=abbr['pady']) # yapf:disable
         self.btn_right.image = self.__virtual_img
 
     def reset_canvas(self):
         self.canvas.create_image(0,0, anchor='center', image=self.__virtual_img, tags="bg_img") # yapf:disable
         self.canvas.update()
+
+    def canvas_show(self):
+        abbr = self.__parms['canvas']
+        self.canvas.grid(column=abbr['col'], row=abbr['row'], sticky=abbr['sticky'], padx=abbr['padx'], pady=abbr['pady']) # yapf:disable
 
     def __widget_grid_forget(self, widget):
         widget.grid_forget()
@@ -229,7 +229,7 @@ class Subframe2_Frame2:
 
     def btn_right_show(self):
         abbr = self.__parms['button_right']
-        self.btn_left.grid(column=abbr['col'], row=abbr['row'], sticky=abbr['sticky']) # yapf:disable
+        self.btn_right.grid(column=abbr['col'], row=abbr['row'], sticky=abbr['sticky']) # yapf:disable
 
 class Subframe2_Frame3:
     __parms = {
@@ -541,8 +541,7 @@ class Tab1_Frame:
         self.__iframe[2].rowconfigure([3], weight=1)
         self.__iframe[2].rowconfigure([4], weight=0)
 
-        self.__f1_1 = Subframe1_Frame1(
-            self.__iframe_sub, lambda e=None: self.__f1_selectRadioBtn(e))
+        self.__f1_1 = Subframe1_Frame1(self.__iframe_sub, lambda e=None: self.__f1_selectRadioBtn(e)) # yapd:disable
         self.__f1_2 = Subframe1_Frame2(self.__iframe_sub)
         self.__f1_3 = Subframe1_Frame3(self.__iframe_sub)
 
@@ -558,10 +557,15 @@ class Tab1_Frame:
 
         self.__iframe_sub[0][2].grid_forget()
         self.__iframe_sub[1][2].grid_forget()
+        self.__f2_2.canvas_show()
         self.__f2_2.btn_left_hide()
         self.__f2_2.btn_right_hide()
         self.__checkbtn_detection = self.__f2_1.chk_btn_val_1.get()
         self.__checkbtn_recognition = self.__f2_1.chk_btn_val_2.get()
+        self.__f1_2.btn.config(command=(lambda: self.__f1_btn_open()))
+        self.__f2_2.btn_left.config(command=(lambda e=None: self.__f2_btn_left_event(e)))
+        self.__f2_2.btn_right.config(command=(lambda e=None: self.__f2_btn_right_event(e)))
+
 
     def __resetINFO(self):
         self.__thread_run, self.__thread = False, None
@@ -602,58 +606,68 @@ class Tab1_Frame:
 
     def __f1_btn_open(self):
         self.__resetINFO()
-        title = [
-            'select image files', 'select video files',
-            'select image directory', 'select video directory'
-        ]
-        filetypes = [[("image file", "*.jpg"), ("image file", "*.png"),
-                      ("image file", "*.gif")],
-                     [("video file", "*.mov"), ("video file", "*.ts"),
-                      ("video file", "*.avi"), ("video file", "*.mpeg"),
-                      ("video file", "*.mp4")]]
-        initialdir = os.curdir
-        file_extend = [('*.jpg', '*.png', '*.gif'),
-                       ('*.mov', '*.ts', '*.avi', '*.mpeg', '*.mp4')]
+        title = ['select image files', 'select video files', 'select image directory', 'select video directory'] # yapf: disable
+        filetypes = [[("image file", "*.jpg"),("image file", "*.png"),("image file", "*.gif")],
+                     [("video file", "*.mov"),("video file", "*.ts"),("video file", "*.avi"),
+                      ("video file", "*.mpeg"),("video file", "*.mp4")]] # yapf: disable
+        initialdir = os.path.join(os.path.abspath(os.curdir), 'source')
+        file_extend = [('*.jpg', '*.png', '*.gif'),('*.mov', '*.ts', '*.avi', '*.mpeg', '*.mp4')] # yapf: disable
+        bool_reset = False
 
+        self.__radiobtn_val = self.__f1_1.radiobtn_val.get()    
         if self.__f1_2.cbbox.current() == 0:
             if self.__radiobtn_val == 0:
-                self.files = fd.askopenfilenames(title=title[0],
-                                                 filetypes=filetypes[0],
-                                                 initialdir=initialdir)
+                self.files = fd.askopenfilenames(title=title[0], filetypes=filetypes[0], initialdir=initialdir) # yapf: disable
             elif self.__radiobtn_val == 1:
-                self.files = fd.askopenfilenames(title=title[1],
-                                                 filetypes=filetypes[1],
-                                                 initialdir=initialdir)
+                self.files = fd.askopenfilenames(title=title[1], filetypes=filetypes[1], initialdir=initialdir) # yapf: disable
         elif self.__f1_2.cbbox.current() == 1:
             if self.__radiobtn_val == 0:
-                self.folder_path = fd.askdirectory(title=title[2],
-                                                   initialdir=initialdir)
-                [
-                    self.files.extend(
-                        glob.glob(
-                            os.path.abspath(os.path.join(
-                                self.folder_path, ext))))
-                    for ext in file_extend[0]
-                ]
+                self.folder_path = fd.askdirectory(title=title[2], initialdir=initialdir) # yapf: disable
+                [ self.files.extend(glob.glob(os.path.abspath(os.path.join(self.folder_path, ext)))) for ext in file_extend[0] ] # yapf: disable
             elif self.__radiobtn_val == 1:
-                self.folder_path = fd.askdirectory(title=title[3],
-                                                   initialdir=initialdir)
-                [
-                    self.files.extend(
-                        glob.glob(
-                            os.path.abspath(os.path.join(
-                                self.folder_path, ext))))
-                    for ext in file_extend[1]
-                ]
+                self.folder_path = fd.askdirectory(title=title[3], initialdir=initialdir) # yapf: disable
+                [ self.files.extend(glob.glob(os.path.abspath(os.path.join(self.folder_path, ext)))) for ext in file_extend[1] ] # yapf: disable
+            if len(self.folder_path) == 0:
+                bool_reset = True
+        if bool_reset or len(self.files) == 0:
+            msgbox.showwarning('Warning', 'Failed to open file')
+            self.__resetINFO()
+            self.__f2_2.btn_left_hide()
+            self.__f2_2.btn_right_hide()
+            return
         self.file_path = os.path.abspath(self.files[self.files_idx])
         self.folder_name = os.path.dirname(self.file_path)
         self.file_name = os.path.basename(self.file_path)
 
-    def __f2_checkBtn_plate(self, event):
-        pass
+        if self.__f1_1.radiobtn_val.get() == 0 or self.__f1_1.radiobtn_val.get() == 1:
+            self.__f2_1.folder_content.config(text=self.folder_name)
+            self.__f2_1.file_content.config(text=self.file_name)
+            self.__show_image_video_event()
+        elif self.__f1_1.radiobtn_val.get() == 2:
+            self.__f2_1.folder_content.config(text='from camera stream')
+            self.__f2_1.file_content.config(text='')
+            pass
+        elif self.__f1_1.radiobtn_val.get() == 3:
+            self.__f2_1.folder_content.config(text='from ipcamera stream')
+            self.__f2_1.file_content.config(text='')
+            pass
 
-    def __f2_checkBtn_(self, event):
-        pass
+    def __show_image_video_event(self):
+        self.__checkbtn_detection = self.__f2_1.chk_btn_val_1.get()
+        self.__checkbtn_recognition = self.__f2_1.chk_btn_val_2.get()
+        self.__f2_1.folder_content.config(text=self.folder_name)
+        self.__f2_1.file_content.config(text=self.file_name)
+        if len(self.files) > 1:
+            self.__f2_2.btn_left_show()            
+            if self.__f1_1.radiobtn_val.get() == 0:
+                self.__f2_2.canvas_show()
+            elif self.__f1_1.radiobtn_val.get() == 0:
+                self.__f2_2.canvas_show()
+            self.__f2_2.btn_right_show()
+        else:
+            self.__f2_2.canvas_show()
+            self.__f2_2.btn_left_hide()
+            self.__f2_2.btn_right_hide()
 
     def __f2_btn_left_event(self, event):
         if len(self.files) == 0:
@@ -665,8 +679,7 @@ class Tab1_Frame:
         self.file_path = os.path.abspath(self.files[self.files_idx])
         self.folder_name = os.path.dirname(self.file_path)
         self.file_name = os.path.basename(self.file_path)
-        self.__checkbtn_detection = self.__f2_1.chk_btn_val_1.get()
-        self.__checkbtn_recognition = self.__f2_1.chk_btn_val_2.get()
+        self.__show_image_video_event()
 
     def __f2_btn_right_event(self, event):
         if len(self.files) == 0:
@@ -678,8 +691,7 @@ class Tab1_Frame:
         self.file_path = os.path.abspath(self.files[self.files_idx])
         self.folder_name = os.path.dirname(self.file_path)
         self.file_name = os.path.basename(self.file_path)
-        self.__checkbtn_detection = self.__f2_1.chk_btn_val_1.get()
-        self.__checkbtn_recognition = self.__f2_1.chk_btn_val_2.get()
+        self.__show_image_video_event()
 
     def __iframe_sub_show(self, idx, idy):
         abbr = self.__parms[idx]['subframe'][idy]
